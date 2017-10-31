@@ -1,4 +1,5 @@
 import time
+import re
 
 userName=[]
 userFirstname=[]
@@ -33,10 +34,10 @@ for line in userMobno:
     userMobno.append(line[:-1])       
 
 def signUp():
-    num=["1234567890"]                        #num=[0,1,2,3,4,5,6,7,8,9]
-    alpha=["abcdefghijklmnopqrstuvwxyz"]      #alpha=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
-    splchar=['~','!','@','#','$','%','^','&','*','(',')','_','+','|','}','{','"',':','?','>','<','`','-','=','[',']','.','/']
-    capAlpha=['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
+##    num=["1234567890"]                        #num=[0,1,2,3,4,5,6,7,8,9]
+##    alpha=["abcdefghijklmnopqrstuvwxyz"]      #alpha=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+##    splchar=['~','!','@','#','$','%','^','&','*','(',')','_','+','|','}','{','"',':','?','>','<','`','-','=','[',']','.','/']
+##    capAlpha=['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
     mail=""
     psw=""
     uname=""
@@ -64,7 +65,13 @@ def signUp():
     
     while mail not in userMailId and len(mail)<8:
         mail=raw_input("Enter valid mail id")
-        if mail not in userMailId:
+        Mail=re.match('^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', mail)
+
+        
+        if Mail == None:
+            print('Bad Syntax')
+            raise ValueError('Bad Syntax')
+        if Mail not in userMailId:
             userMailId.append(mail)
             filewrite(userMailId)
             break
@@ -124,22 +131,66 @@ def filewrite(item):
         text.close()    
 
 def logIn():
-    mail=""
-    psw=""
-    mail=raw_input("Enter mail id")
-    txt=open("fmailfile.txt", "r")
+    logInId=""
+    
+
+    logInId=raw_input("Enter loginid")
+    txt=open("fnamefile.txt", "r")
     text=txt.read()
-    if mail in text:
-        psw=raw_input("Enter password")
-        txt1=open("fpassfile.txt", "r")
-        text1=txt1.read()
-        if psw in text1:
-            submit()
-            print "Successfully logged in"
-        else:
-            print "password is not valid please enter correct mailid or password"
-            logIn()
+    txt1=open("fmailfile.txt", "r")
+    text1=txt1.read()
+    if logInId in text:
+        checkPassForLogin()
         
+    elif logInId in  text1:
+        checkPassForLogin()
+    else:
+        print "Entered logInId not valid"
+        logIn()
+        
+
+
+
+
+
+
+
+
+
+    
+##    mail=""
+##    psw=""
+##    mail=raw_input("Enter mail id")
+##    txt=open("fmailfile.txt", "r")
+##    text=txt.read()
+##    if mail in text:
+##        psw=raw_input("Enter password")
+##        txt1=open("fpassfile.txt", "r")
+##        text1=txt1.read()
+##        if psw in text1:
+##            submit()
+##            print "Successfully logged in"
+##        else:
+##            print "password is not valid please enter correct mailid or password"
+##            logIn()
+        
+def checkPassForLogin():
+    psw=""
+
+    psw=raw_input("Enter password")
+    p=open("fpassfile.txt", "r")
+    pf=p.read()
+    if psw in pf:
+        submit()
+        print "Successfully logged in"
+    else:
+        print "password is not valid please enter correct mailid or password"
+        logIn()
+         
+    
+    
+    
+    
              
 def submit():
     print("logging"),
