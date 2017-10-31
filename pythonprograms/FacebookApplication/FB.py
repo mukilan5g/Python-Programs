@@ -1,4 +1,4 @@
-import f
+import faceBookApp1
 import time
 
 def toCreateFacebook():
@@ -8,17 +8,14 @@ def toCreateFacebook():
     if prompt==1:
         user=FbAcount()
     elif prompt==2:
-        acc=logIn()
+        acc=faceBookApp1.logIn()
     else:
         print "The entered key is invalid,try agin"
         toCreateFacebook()
 class FbAcount:
     def __init__(self):
-        self.username,self.firstname,self.lastname,self.mobno,self.mailid,self.password=f.signUp()
-        print "Thank you %s,your facebook account is created successfully and ready to use" %username
+        self.username,self.firstname,self.lastname,self.mobno,self.mailid,self.password=faceBookApp1.signUp()
+        print "Thank you %s,your facebook account is created successfully and ready to use" %self.username
         time.sleep(2)
 
-toCreateFacebook()        
-        
-      
-
+toCreateFacebook() 
