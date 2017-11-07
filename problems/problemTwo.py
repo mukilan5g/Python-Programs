@@ -1,8 +1,16 @@
 import re
+s = """<head>
+<title>HTML</title>
+</head>
+<object type="application/x-flash" data="your-file.swf" width="0" height="0">
+<!-- <param name="movie" value="your-file.swf" /> -->
+  <param name="quality" value="high"/>
+</object>"""
+
 
 s = open("sample.txt", 'r')
 data = s.read()
-text = re.sub(r'<!.+-->',r' ',(data))
+text = re.sub(r'<!.+-->',"",data)
 
 for i in re.findall(r'<([^/][^>]*)>', text):
     if ' ' in i:
@@ -11,6 +19,7 @@ for i in re.findall(r'<([^/][^>]*)>', text):
             print('->'+ht[1]+ ' > '+ht[2])
     else:
         print i
+
 
 
 

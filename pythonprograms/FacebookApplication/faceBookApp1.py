@@ -67,7 +67,6 @@ def signUp():
         mail=raw_input("Enter valid mail id")
         Mail=re.match('^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', mail)
 
-        
         if Mail == None:
             print('Bad Syntax')
             raise ValueError('Bad Syntax')
@@ -148,16 +147,6 @@ def logIn():
         print "Entered logInId not valid"
         logIn()
         
-
-
-
-
-
-
-
-
-
-    
 ##    mail=""
 ##    psw=""
 ##    mail=raw_input("Enter mail id")

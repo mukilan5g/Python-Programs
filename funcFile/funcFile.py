@@ -14,3 +14,5 @@ currentLine=1
 printALine(currentLine,currentFile)
 currentLine=currentLine+1
 printALine(currentLine,currentFile)
+currentLine=currentLine+1
+printALine(currentLine,currentFile)
