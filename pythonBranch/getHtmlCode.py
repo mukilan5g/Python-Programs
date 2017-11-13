@@ -1,64 +1,79 @@
 
-from sys import argv
+import sys
 import re
+import copy
 
-script,htmlCodes=argv
+##script,htmlCodes=argv
 
 ##outerDict={}
 
 class htmlTags:
 
-    def checkFile(self):
+    def checkFile(self,htmlCodes):
         text=""
+
         if ".txt" in htmlCodes or ".html" in htmlCodes:
             txt=open(htmlCodes,'r')
             datas=txt.read()
-            print datas
             self.text=re.sub(r'<!.+-->',"",datas)
+            obj=open("htmlcodes.txt","w")
+            obj.write(self.text)
+            #self.text=text
             #self.splitTags()
+##            print self.text
+##            writeHtml=open("htmlcodes.txt","w")
+##            writeHtml.write(text)
+##            print "writeHtml is",writeHtml
         else:
-            print "The existing file is not txt or html"    
-        return text
+            print "The existing file is not txt or html"
+            
+        return self.text
+    
     def splitFile(self):
-        useText=self.text
-        for line in useText.splitlines():
+        self.groupOfTags=[]
+        self.groupOfKeys=[]
+        self.groupOfValues=[]
+        #useText = self.text
+        obj2=open("htmlcodes.txt","r")
+        objT=obj2.read()
+        for line in objT.splitlines():
             if " " in line:
                 words=line.split(" ")
                 words=filter(None, words)
                 word=words[0]
                 word=word[1:]
-                groupOfTags.append(word)
-                print "word is",word
-            
-                #print tagList
+                self.groupOfTags.append(word)
+                    
+                        #print tagList
                 for index in range(1,len(words)):
                     stringWord=words[index]
                     if "=" in stringWord:
                         wordsOfLine=stringWord.split("=")
-                        groupOfKeys.append(wordsOfLine[0])
-                        groupOfValues.append(wordsOfLine[1])
-##                        innerDict={words[0]:words[1]}
-##                        outerDict.update(innerDict)                
+                        self.groupOfKeys.append(wordsOfLine[0])
+                        self.groupOfValues.append(wordsOfLine[1])
+        ##                        innerDict={words[0]:words[1]}
+        ##                        outerDict.update(innerDict)                
             else:
                 if "<" in line and ">" in line:
                     wordOfLine=re.findall(r'[\w]+',line)
                     if len(wordOfLine)==1:
                         word=wordOfLine[0] 
-                        groupOfTags.append(word)
+                        self.groupOfTags.append(word)
                     elif len(wordOfLine)>1:
                         for index in range(0,len(wordOfLine)):
                             if "=" in wordOfLine[index]:
                                 word=wordOfLine[index]
                                 word=text.split("=")
-                                groupOfKeys.append(word[0])
-                                groupOfValues.append(word[1])
-##                                        innerDictTwo={wordsTwo[0]:wordsTwo[1]}
-##                                        outerDict=update(innerDictTwo)
+                                self.groupOfKeys.append(word[0])
+                                self.groupOfValues.append(word[1])
+        ##                                        innerDictTwo={wordsTwo[0]:wordsTwo[1]}
+        ##                                        outerDict=update(innerDictTwo)
                             else:
-                                groupOfTags.append(wordOfLine[index])
-                    
-        return groupOfTags,groupOfKeys,groupOfValues
-            #print tagList
+                                self.groupOfTags.append(wordOfLine[index])
+        List=self.groupOfTags+self.groupOfKeys+self.groupOfValues
+        return List
+                 
+        #print tagList
     def display(self):
         issuccess = True
         try:
@@ -67,41 +82,52 @@ class htmlTags:
   3.For values,
   4.For search values of corresponding key\n"""))
             if prompt==1:
-                for tag in groupOfTags:
+                for tag in self.groupOfTags:
                     print tag
                 self.display()   
 
             elif prompt==2:
-                for key in groupOfKeys:
+                for key in self.groupOfKeys:
                     print key
                 self.display()   
             elif prompt==3:
-                if len(groupOfKeys)==len(groupOfValues):
-                    for ind in range(0,len(groupOfKeys)):
-                        print groupOfKeys[ind],"=",groupOfValues[ind]
+                if len(self.groupOfKeys)==len(self.groupOfValues):
+                    for ind in range(0,len(self.groupOfKeys)):
+                        print self.groupOfKeys[ind],"=",self.groupOfValues[ind]
                     self.display()
             elif prompt==4:
                 ans=raw_input("Enter key:")
-                if ans in groupOfKeys:
-                    val=groupOfKeys.index(ans)
-                    print groupOfKeys[val],"=",groupOfValues[val]
+                if ans in self.groupOfKeys:
+                    val=self.groupOfKeys.index(ans)
+                    print self.groupOfKeys[val],"=",self.groupOfValues[val]
                     
                 else:
                     print "Enter the correct key"
                     self.display()
-        except:
+        except Exception as exception:
+            template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+            message = template.format(type(exception).__name__, exception.args)
+            print message
             issuccess=False  
         return issuccess
+
+##    def main(self,htmlfile):
+##        self.checkFileObj=checkFile(self,htmlfile)
+##        print self.checkFileObj
 ##        tagList=filter(None,tagList)
 ##        print "tag list=",tagList 
 ##        print "key and value=",outerDict
-
-obj=htmlTags()
-groupOfTags=[]
-groupOfKeys=[]
-groupOfValues=[]
-
-obj.checkFile()
-obj.splitFile()
-obj.display()
+if __name__=='__main__':
+    obj=htmlTags()
+    groupOfTagsOne=[]
+    groupOfKeysOne=[]
+    groupOfValuesOne=[]
+    List=[]
+    if len(sys.argv)>1:
+        obj.checkFile(sys.argv[1])
+##    if len(sys.argv)>1:
+##        obj.main(sys.argv[1])
+    obj.splitFile()
+    print "groupOfTagsOne",groupOfTagsOne
+    obj.display()
 
