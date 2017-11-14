@@ -1,29 +1,31 @@
 import unittest
-from getHtmlCode import htmlTags
-from getHtmlCode import  *
+from sample3 import htmlTags
+from sample3 import  *
 class TestHtmlTags(unittest.TestCase):
-    def setUp(self):
-        self.textFile=open("htmlFile.txt","r").read()
-        self.expected=self.textFile
-        expectedTags=["html","head","title","title","head","object","param","object","html"]
-        expectedKeys=['type', 'data', 'width', 'height', 'name', 'value']
-        expectedValues=['"application/x-flash"', '"your-file.swf"', '"0"', '"0"', '"quality"', '"high"']
-        self.ListOfHtml=expectedTags+expectedKeys+expectedValues
+
     def testcheckFile(self):
+        codes=open("htmlFile.txt","r").read()
         h=htmlTags()
-        actual=h.checkFile("htmlFile.txt")
-        self.assertNotEqual(actual,self.expected)
+        Expected=h.checkFile("htmlFile.txt")
+        self.assertEqual(Expected[0],codes)
+        self.assertEqual(Expected[1],True)
 
     def testsplitFile(self):
         h=htmlTags()
-        actualTwo=h.splitFile()
-        self.assertNotEqual(actualTwo,self.ListOfHtml)
+        expectedTags=["html","head","title","object","param"]
+        expectedKeys=['type', 'data', 'width', 'height', 'name', 'value']
+        expectedValues=['"application/x-flash"', '"your-file.swf"', '"0"', '"0"', '"quality"', '"high"']
+        textFile=open("htmlFile.txt","r").read()
+        
+        actualTwo=h.splitFile(textFile)
+        self.assertNotIn(expectedTags,actualTwo[0])
+        self.assertEqual(actualTwo[1],expectedKeys)
+        self.assertNotEqual(actualTwo[2],expectedValues)
+        self.assertEqual(actualTwo[3],True)
     def testDisplay(self):
         h=htmlTags()
-        check=True
-        self.assertNotEqual(h.display(),check)
-    
-        
+        check=False
+        self.assertEqual(h.display(),check)
 
 if __name__ == '__main__':
     unittest.main()
