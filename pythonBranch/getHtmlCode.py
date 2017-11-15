@@ -29,8 +29,7 @@ class htmlTags:
                     words=filter(None, words)
                     word=words[0]
                     word=word[1:]
-                    groupOfTags.append(word)
-                    print "groupOfTags",groupOfTags    
+                    groupOfTags.append(word)    
                             #print tagList
                     for index in range(1,len(words)):
                         stringWord=words[index]
@@ -53,8 +52,7 @@ class htmlTags:
                                     groupOfKeys.append(word[0])
                                     groupOfValues.append(word[1])
                                 else:
-                                    groupOfTags.append(wordOfLine[0])
-            print "groupOfTags",groupOfTags               
+                                    groupOfTags.append(wordOfLine[0])               
 ##            List=groupOfTags+groupOfKeys+groupOfValues
             groupOfTags=list(set(groupOfTags))
             self.groupOfTags=groupOfTags
