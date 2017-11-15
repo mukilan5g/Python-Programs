@@ -1,7 +1,6 @@
-
+import datetime
 import sys
 import re
-
 class htmlTags:
 
     def checkFile(self,htmlCodes):
@@ -31,14 +30,15 @@ class htmlTags:
                     word=words[0]
                     word=word[1:]
                     groupOfTags.append(word)
-                        
+                    print "groupOfTags",groupOfTags    
                             #print tagList
                     for index in range(1,len(words)):
                         stringWord=words[index]
                         if "=" in stringWord:
                             wordsOfLine=stringWord.split("=")
                             groupOfKeys.append(wordsOfLine[0])
-                            groupOfValues.append(wordsOfLine[1])              
+                            groupOfValues.append(wordsOfLine[1])
+                            
                 else:
                     if "<" in line and ">" in line:
                         wordOfLine=re.findall(r'[\w]+',line)
@@ -53,8 +53,10 @@ class htmlTags:
                                     groupOfKeys.append(word[0])
                                     groupOfValues.append(word[1])
                                 else:
-                                    groupOfTags.append(wordOfLine[index])
-            List=groupOfTags+groupOfKeys+groupOfValues
+                                    groupOfTags.append(wordOfLine[0])
+            print "groupOfTags",groupOfTags               
+##            List=groupOfTags+groupOfKeys+groupOfValues
+            groupOfTags=list(set(groupOfTags))
             self.groupOfTags=groupOfTags
             self.groupOfKeys=groupOfKeys
             self.groupOfValues=groupOfValues
@@ -101,7 +103,7 @@ class htmlTags:
         return issuccess
         
 
-    
+start = datetime.datetime.now()    
 if __name__=='__main__':
     if len(sys.argv)>1:
         obj=htmlTags()
@@ -112,3 +114,5 @@ if __name__=='__main__':
             if argFour:
                 obj.display()
 
+finish = datetime.datetime.now()
+print finish-start  
