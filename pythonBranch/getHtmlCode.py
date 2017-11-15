@@ -105,7 +105,6 @@ start = datetime.datetime.now()
 if __name__=='__main__':
     if len(sys.argv)>1:
         obj=htmlTags()
-        List=[]
         returnedValue,argOne =obj.checkFile(sys.argv[1])
         if argOne:
             returnedTags,returnedKeys,returnedValues,argFour=obj.splitFile(returnedValue)
