@@ -105,7 +105,7 @@ class Railroads:
             for i in range(0,len(self.aStations)):
                 if self.aStations[i][count]==maxKey:
                     print "the available train to go:"
-                    print "sidufy",self.bStations[i] ,'\n',self.aStations[i]
+                    print self.bStations[i] ,'\n',self.aStations[i]
             
         
 
