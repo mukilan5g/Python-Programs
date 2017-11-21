@@ -95,17 +95,21 @@ class Railroads:
         count=0
         maxKey=max(keys)
         if self.arrTime==maxKey:
-            key=sorted(keys)[-2]
-            for i in range(0,len(self.aStations)):
-                if self.aStations[i][count]==key:
-                    print "The available train to go:"
-                    print self.bStations[i] ,'\n',self.aStations[i]
+            if len(keys)>1:
+                key=sorted(keys)[-2]
+                for i in range(0,len(self.aStations)):
+                    if self.aStations[i][count]==key:
+                        print "The available train to go:"
+                        print self.bStations[i] ,'\n',self.aStations[i]
 
-        else:
-            for i in range(0,len(self.aStations)):
-                if self.aStations[i][count]==maxKey:
-                    print "the available train to go:"
-                    print self.bStations[i] ,'\n',self.aStations[i]
+            else:
+                print "the available train to go:"
+                print self.bStations ,'\n',self.aStations
+                
+##                for i in range(0,len(self.aStations)):
+##                    if self.aStations[i][count]==maxKey:
+##                        print "the available train to go:"
+##                        print "sidufy",self.bStations[i] ,'\n',self.aStations[i]
             
         
 
