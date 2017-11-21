@@ -10,12 +10,10 @@ class Railroads:
         for count in range(1,scenario+1):
             cities=self.getCities()
             self.cit=cities
-            dictCities={}
             nTrainsPerDay=self.getTrainsPerDay()
             self.cTrains=nTrainsPerDay
             boardingDetails,arrivalDetails=self.trainDescription()
-            details=self.getTimDepArr()
-            
+            details=self.getTimDepArr()     
 
     def getCities(self):
         cities=[]
@@ -42,9 +40,6 @@ class Railroads:
             self.bDetails=boardingDetails
             self.aDetails=arrivalDetails
 
-    
-        print "boardingDetails",boardingDetails
-        print "arrivalDetails",arrivalDetails
         return  boardingDetails, arrivalDetails
         
 
@@ -77,29 +72,42 @@ class Railroads:
 ##                break   
 
             
-        
+        boardingStations=[]
+        arrivalStations=[]
         latestTime=sorted(bTime, key=str, reverse=True)
-        print "latestTime",latestTime
         index=0
-        
         for i in range(0,len(self.bDetails)):
-            #import pdb;pdb.set_trace()
             for ind in range(0,len(latestTime)):
                 if self.bDetails[i][index]==latestTime[ind]:
                     if self.bDetails[i][index+1]==self.bPoint:
-                        if self.aDetails[i][index]< self.arrTime:
+                        if self.aDetails[i][index] <= self.arrTime:
                             if self.aDetails[i][index+1]==self.arrPoint:
-                                print self.bDetails[i] , self.aDetails[i]
+                                boardingStations.append(self.bDetails[i])
+                                arrivalStations.append(self.aDetails[i])
                                 break
-                            
-                        else:
-                            if self.aDetails[i][index]==self.arrTime:
-                                if self.aDetails[i][index+1]==self.arrPoint:
-                                    print self.bDetails[i] , self.aDetails[i]
-                                                              
-                    
-                
-                
+                               
+        self.bStations=boardingStations
+        self.aStations=arrivalStations
+        return  boardingStations, arrivalStations
+
+    def displayTrainToGo(self):
+        keys=[r[0] for r in self.aStations]
+        count=0
+        maxKey=max(keys)
+        if self.arrTime==maxKey:
+            key=sorted(keys)[-2]
+            for i in range(0,len(self.aStations)):
+                if self.aStations[i][count]==key:
+                    print "The available train to go:"
+                    print self.bStations[i] ,'\n',self.aStations[i]
+
+        else:
+            for i in range(0,len(self.aStations)):
+                if self.aStations[i][count]==maxKey:
+                    print "the available train to go:"
+                    print "sidufy",self.bStations[i] ,'\n',self.aStations[i]
+            
+        
 
 if __name__ == "__main__":
 
@@ -108,6 +116,8 @@ if __name__ == "__main__":
     if isinstance(scenario, int):
         details.partsOfSchedule(scenario)
 
-    details.selectTrainTravel()    
+    details.selectTrainTravel()
+    details.displayTrainToGo()
         
+
 
