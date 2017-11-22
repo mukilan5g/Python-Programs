@@ -74,7 +74,7 @@ class Railroads:
             
         boardingStations=[]
         arrivalStations=[]
-        latestTime=sorted(bTime, key=str, reverse=True)
+        latestTime=sorted(bTime)
         index=0
         for i in range(0,len(self.bDetails)):
             for ind in range(0,len(latestTime)):
@@ -88,23 +88,25 @@ class Railroads:
                                
         self.bStations=boardingStations
         self.aStations=arrivalStations
+        print "boardingStations",boardingStations
+        print "arrivalStations",arrivalStations
         return  boardingStations, arrivalStations
 
     def displayTrainToGo(self):
         keys=[r[0] for r in self.aStations]
         count=0
         maxKey=max(keys)
-        if self.arrTime==maxKey:
-            if len(keys)>1:
+        if len(keys)>1:
+            if self.arrTime==maxKey:
                 key=sorted(keys)[-2]
                 for i in range(0,len(self.aStations)):
                     if self.aStations[i][count]==key:
                         print "The available train to go:"
                         print self.bStations[i] ,'\n',self.aStations[i]
 
-            else:
-                print "the available train to go:"
-                print self.bStations ,'\n',self.aStations
+        else:
+            print "the available train to go:"
+            print self.bStations ,'\n',self.aStations
                 
 ##                for i in range(0,len(self.aStations)):
 ##                    if self.aStations[i][count]==maxKey:
@@ -122,6 +124,5 @@ if __name__ == "__main__":
 
     details.selectTrainTravel()
     details.displayTrainToGo()
-        
 
 
