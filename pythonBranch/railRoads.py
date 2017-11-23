@@ -1,5 +1,6 @@
 import sys
 import time
+import operator
 
 class Railroads:
 
@@ -57,72 +58,68 @@ class Railroads:
 
         return startTime,arrivalTime,boardingPoint,arrivalPoint
 
-    def selectTrainTravel(self):
+    def selectPointToPointTrain(self):
         bTime=[]
         for i in range(0,len(self.bDetails)):
             for j in range(0,len(self.bDetails)):
                 bTime.append(self.bDetails[i][j])
-                break
-        #latestTime=max(bTime)
-
-##        aTime=[]
-##        for i in range(0,len(self.aDetails)):
-##            for j in range(0,len(self.aDetails)):
-##                aTime.append(self.aDetails[i][j])
-##                break   
-
-            
+                break  
         boardingStations=[]
         arrivalStations=[]
-        latestTime=sorted(bTime)
+        latestTime=sorted(bTime, key=str, reverse=True)
         index=0
         for i in range(0,len(self.bDetails)):
             for ind in range(0,len(latestTime)):
                 if self.bDetails[i][index]==latestTime[ind]:
                     if self.bDetails[i][index+1]==self.bPoint:
-                        if self.aDetails[i][index] <= self.arrTime:
-                            if self.aDetails[i][index+1]==self.arrPoint:
+                        if self.aDetails[i][index+1]==self.arrPoint:
+                            if self.aDetails[i][index] <= self.arrTime:
                                 boardingStations.append(self.bDetails[i])
                                 arrivalStations.append(self.aDetails[i])
                                 break
-                               
+                            
         self.bStations=boardingStations
         self.aStations=arrivalStations
         print "boardingStations",boardingStations
         print "arrivalStations",arrivalStations
         return  boardingStations, arrivalStations
 
+    def selectJumpTrain(self,aStation):
+        print "aStation is",aStation
+
     def displayTrainToGo(self):
-        keys=[r[0] for r in self.aStations]
+        keys=[r[0] for r in self.aStations]                
         count=0
-        maxKey=max(keys)
+        sKeys=sorted(keys, key=int, reverse=True)
+        fTime=sKeys[0]
+        sTime=sKeys[1]
+        if sKeys[0]>sKeys[1]:
+            fTime=sKeys[0]
+            sTime=sKeys[1]
+        else:
+            for i in range(2,len(sKeys)):
+                if sKeys[i]<fTime:
+                    sTime=sKeys[i]
+                    break
+        print "fTime",fTime
+        print "sTime",sTime
         if len(keys)>1:
-            if self.arrTime==maxKey:
-                key=sorted(keys)[-2]
+            if self.arrTime==fTime:
                 for i in range(0,len(self.aStations)):
-                    if self.aStations[i][count]==key:
+                    if self.aStations[i][count]==sTime:
                         print "The available train to go:"
                         print self.bStations[i] ,'\n',self.aStations[i]
 
         else:
             print "the available train to go:"
             print self.bStations ,'\n',self.aStations
-                
-##                for i in range(0,len(self.aStations)):
-##                    if self.aStations[i][count]==maxKey:
-##                        print "the available train to go:"
-##                        print "sidufy",self.bStations[i] ,'\n',self.aStations[i]
-            
-        
 
 if __name__ == "__main__":
-
     details=Railroads()
     scenario=details.scenarios()
     if isinstance(scenario, int):
         details.partsOfSchedule(scenario)
 
-    details.selectTrainTravel()
+    details.selectPointToPointTrain()
     details.displayTrainToGo()
-
 
