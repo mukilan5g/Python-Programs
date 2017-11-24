@@ -1,13 +1,20 @@
 import datetime
 import sys
 import re
+'''
+General Review Comments:
+-----------------------
+
+Please read more about object oriented programming. May help you to improvise this program better.
+Read about the styling guldelines of python (pep8).
+'''
 class htmlTags:
 
     def checkFile(self,htmlCodes):
         issuccess=True
         datas=""
 
-        if ".txt" in htmlCodes or ".html" in htmlCodes:
+        if ".txt" in htmlCodes or ".html" in htmlCodes: # What if the filename is created like 'sample.txt.py'. (review comment)
             txt=open(htmlCodes,'r')
             datas=txt.read()
             self.text=datas
